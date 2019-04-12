@@ -20,7 +20,7 @@ import com.java.util.DBUtil;
 
 @WebServlet("/Login")
 public class LoginController extends HttpServlet{
-	static Logger logger = Logger.getLogger(LoginController.class); 	
+	//static Logger logger = Logger.getLogger(LoginController.class); 	
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -50,10 +50,10 @@ public class LoginController extends HttpServlet{
 				response.sendRedirect("html/Login.html");
 			}
 		} catch (SQLException e) {
-			logger.error("SQL query cannot be done" + e.getMessage());
+			//logger.error("SQL query cannot be done" + e.getMessage());
 			e.printStackTrace();
 		} catch (DatabaseException e) {
-			logger.error("Database connection exception" + e.getMessage());
+			//logger.error("Database connection exception" + e.getMessage());
 			e.printStackTrace();
 		}
 		

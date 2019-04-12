@@ -1,0 +1,267 @@
+/*var counter = 0;
+
+document.getElementById("pending").addEventListener("click",viewPending)*/
+
+function viewPending(str){
+	var request;
+	if (str == "") {
+	    document.getElementById("table_here").innerHTML = "";
+	    return;
+	  }//end of first if
+	 request = new XMLHttpRequest();
+	
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+			
+			var pform = JSON.parse(request.responseText);
+			
+			table = document.getElementById("mainTable1");
+			
+			for(let i in pform){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML =
+					
+					`<td>${pform[i].reimb_id}</td>
+					<td>${pform[i].reimb_amount}</td>
+					<td>${pform[i].reimb_date}</td>
+					<td>${pform[i].reimb_resolved}</td>
+					<td>${pform[i].reimb_description}</td>
+					<td>${pform[i].reimb_author_id}</td>
+					<td>${pform[i].reimb_resolver_id}</td>
+					<td>${pform[i].reimb_status_id}</td>
+					<td>${pform[i].reimb_type_id}</td>`;
+				
+				//table.appendChild(newRow);
+			}//end of for loop
+			
+		}//end of if
+		
+	}; //end of anyonomous function
+	request.open("GET", "http://localhost:8080/ERS/"+str,true);//need to change the url 
+	request.send(); //this is how I make Ajax call
+}//end of function
+
+
+
+
+/*function viewPending(){
+	let request = new XMLHttpRequest();
+	request.open("GET", "http://localhost:8080/ERS/"+str,true);//need to change the url 
+	request.send(); //this is how I make Ajax call
+	
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+			
+			var pform = JSON.parse(request.responseText);
+			
+			table = document.getElementById("mainTable1");
+			
+			for(let i in pform){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML = 
+					`<td>${pform[i].reimb_id}</td>
+					<td>${pform[i].reimb_amount}</td>
+					<td>${pform[i].reimb_date}</td>
+					<td>${pform[i].reimb_resolved}</td>
+					<td>${pform[i].reimb_description}</td>
+					<td>${pform[i].reimb_author_id}</td>
+					<td>${pform[i].reimb_resolver_id}</td>
+					<td>${pform[i].reimb_status_id}: Pending</td>
+					<td>${pform[i].reimb_type_id}</td>`;
+				
+				table.appendChild(newRow);
+			}
+			
+		}
+	}
+}*/
+
+/*function remove(){
+		table.removeChild("tr");
+	
+}
+
+function testing(){
+	
+	viewPending();
+}
+
+var p = document.getElementById('pendingClicked');
+p.addEventListener("click", viewPending);
+
+var a = document.getElementById('approvedClicked');
+a.addEventListener("click", viewApproved);
+
+if(p.click() == true){
+	viewPending();
+}else if(a.click() == true){
+	p.removeChild();
+	viewApproved();
+}else{
+	p.removeChild();
+	a.removeChild();
+}
+
+
+
+function viewApproved(){
+	//console.log("approve");
+	let request = new XMLHttpRequest();
+	request.open("GET", "http://localhost:8080/ERS/approvedform");//need to change the url 
+	request.send(); //this is how I make Ajax call
+	
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+			var pform = JSON.parse(request.responseText);
+
+			table2 = document.getElementById("mainTable1");
+			for(let i in pform){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML = 
+					`<td>${pform[i].reimb_id}</td>
+					<td>${pform[i].reimb_amount}</td>
+					<td>${pform[i].reimb_date}</td>
+					<td>${pform[i].reimb_resolved}</td>
+					<td>${pform[i].reimb_description}</td>
+					<td>${pform[i].reimb_author_id}</td>
+					<td>${pform[i].reimb_resolver_id}</td>
+					<td>${pform[i].reimb_status_id}: Approved</td>
+					<td>${pform[i].reimb_type_id}</td>`;
+				
+				table2.appendChild(newRow);
+			}
+			
+		}
+	}
+}
+
+function viewDenied(){
+	let request = new XMLHttpRequest();
+	request.open("GET", "http://localhost:8080/ERS/deniedform");//need to change the url 
+	request.send(); //this is how I make Ajax call
+	
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+			
+			var pform = JSON.parse(request.responseText);
+			table3 = document.getElementById("mainTable1");
+			for(let i in pform){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML = 
+					`<td>${pform[i].reimb_id}</td>
+					<td>${pform[i].reimb_amount}</td>
+					<td>${pform[i].reimb_date}</td>
+					<td>${pform[i].reimb_resolved}</td>
+					<td>${pform[i].reimb_description}</td>
+					<td>${pform[i].reimb_author_id}</td>
+					<td>${pform[i].reimb_resolver_id}</td>
+					<td>${pform[i].reimb_status_id}: Denied</td>
+					<td>${pform[i].reimb_type_id}</td>`;
+				
+				table3.appendChild(newRow);
+			}
+			
+		}
+	}
+}
+
+function viewAll(){
+	let request = new XMLHttpRequest();
+	request.open("GET", "http://localhost:8080/ERS/employeeallform");//need to change the url 
+	request.send(); //this is how I make Ajax call
+	
+	request.onreadystatechange = function(){
+	if (request.readyState == 4 && request.status == 200) {
+		var pform = JSON.parse(request.responseText);
+
+		table4 = document.getElementById("mainTable1");
+		for(let i in pform){
+			newRow = document.createElement("tr");
+			
+			newRow.innerHTML = 
+				`<td>${pform[i].reimb_id}</td>
+				<td>${pform[i].reimb_amount}</td>
+				<td>${pform[i].reimb_date}</td>
+				<td>${pform[i].reimb_resolved}</td>
+				<td>${pform[i].reimb_description}</td>
+				<td>${pform[i].reimb_author_id}</td>
+				<td>${pform[i].reimb_resolver_id}</td>
+				<td>${pform[i].reimb_status_id}</td>
+				<td>${pform[i].reimb_type_id}</td>`;
+			
+			table4.appendChild(newRow);
+			}
+			
+		}
+	}
+}
+
+function mViewPending(){
+	let request = new XMLHttpRequest();
+	request.open("GET", "http://localhost:8080/ERS/viewreimbursement");//need to change the url 
+	request.send(); //this is how I make Ajax call
+	
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+			
+			var pform = JSON.parse(request.responseText);
+			
+			table = document.getElementById("mainTable1");
+			for(let i in pform){
+				newRow = document.createElement("tr");
+				
+				newRow.innerHTML = 
+					`<td>${pform[i].reimb_id}</td>
+					<td>${pform[i].reimb_amount}</td>
+					<td>${pform[i].reimb_date}</td>
+					<td>${pform[i].reimb_resolved}</td>
+					<td>${pform[i].reimb_description}</td>
+					<td>${pform[i].reimb_author_id}</td>
+					<td>${pform[i].reimb_resolver_id}</td>
+					<td>${pform[i].reimb_status_id}: Pending</td>
+					<td>${pform[i].reimb_type_id}</td><button type = "submit" id="approve">Approve</button><button type="submit" id="deny">Deny</button>`;
+				
+				table.appendChild(newRow);
+				
+				document.getElementById("aprrove").addEventListener("click", function(){
+					
+					let request = new XMLHttpRequest();
+					request.open("POST", "http://localhost:8080/ERS/approve");//need to change the url 
+					request.send("approve"); //this is how I make Ajax call
+					
+					request.onreadystatechange = function(){
+						if (request.readyState > 3 && request.status == 200) {
+							document.getElementById("aprrove").disabled = "true";
+							document.getElementById("deny").disabled = "true";
+						}
+							
+						}
+				});
+				
+				document.getElementById("deny").addEventListener("click", function(){
+					
+					let request = new XMLHttpRequest();
+					request.open("POST", "http://localhost:8080/ERS/deny");//need to change the url 
+					request.send("deny"); //this is how I make Ajax call
+					
+					request.onreadystatechange = function(){
+						if (request.readyState == 4 && request.status == 200) {
+							document.getElementById("aprrove").disabled = "true";
+							document.getElementById("deny").disabled = "true";
+						}
+							
+						}
+				});
+				
+			}
+			
+		}
+	}
+}
+
+	
+*/

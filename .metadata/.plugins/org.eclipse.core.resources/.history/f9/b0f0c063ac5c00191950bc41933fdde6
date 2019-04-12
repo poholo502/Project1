@@ -1,0 +1,301 @@
+package com.java.repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.sql.Date;
+import java.util.ArrayList;
+//import java.util.Date;
+import java.util.List;
+
+import com.java.dto.Employee;
+import com.java.dto.RequestForm;
+import com.java.exception.DatabaseException;
+import com.java.util.DBUtil;
+
+public class ManagerRepository extends EmployeeRepository{
+	ManagerRepository manager;
+	
+	//return ALL the employees
+	public List<Employee> getAllEmployees() throws DatabaseException {											//return ALL the employees								
+		String sql="select * from employees";
+		try (Connection connection = DBUtil.getConnection();
+				Statement st = connection.createStatement();) {
+			ResultSet result = st.executeQuery(sql);
+			
+			List<Employee> db_employees = new ArrayList<>();
+			
+			while(result.next()) {
+				Employee employee = extractEmployeeFromResultSet(result);
+				db_employees.add(employee);
+			}
+			result.close();
+			st.close();
+			connection.close();
+			return db_employees;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException("Unable to connect");
+		}
+	}
+	
+	//for manager to get see pending forms																
+	public List<RequestForm> getPending(int employee_id) throws DatabaseException {						//for manager to get see pending forms	
+		String sql = "select * from reimbursement where reimb_status_id = 77";
+		try (Connection con = DBUtil.getConnection(); PreparedStatement pstm = con.prepareStatement(sql);) {
+
+			ResultSet result = pstm.executeQuery();
+
+			List<RequestForm> pending_forms = new ArrayList<>();
+
+			while (result.next()) {
+				RequestForm form = new RequestForm();
+				pending_forms.add(form);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return pending_forms;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException("Unable to ");
+		}
+	}
+	
+	//for manager to get see All their approved forms
+	public List<RequestForm> getApproved(int employee_id) throws DatabaseException {				//for manager to get see All their approved forms
+		String sql = "select * from reimbursement where reimb_status_id = 88";
+		try (Connection con = DBUtil.getConnection(); PreparedStatement pstm = con.prepareStatement(sql);) {
+
+			ResultSet result = pstm.executeQuery();
+
+			List<RequestForm> approved_forms = new ArrayList<>();
+
+			while (result.next()) {
+				RequestForm form = new RequestForm();
+				approved_forms.add(form);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return approved_forms;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException("Unable to ");
+		}
+	}
+	
+	// approve form
+	public boolean approveFrom(int reimb_id) throws DatabaseException {
+		String sql = "update reimbursement set reimb_staust_id=88 WHERE reimb_id=?";
+		try (Connection con = DBUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
+
+			ps.setInt(1, reimb_id);
+
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				con.commit();
+				con.close();
+				ps.close();
+				return true;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new DatabaseException("Unablet to connect");
+		}
+		return false;
+	}
+	
+	// deny form
+		public boolean denyFrom(int reimb_id) throws DatabaseException {
+			String sql = "update reimbursement set reimb_staust_id=88 WHERE reimb_id=?";
+			try (Connection con = DBUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
+
+				ps.setInt(1, reimb_id);
+
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					con.commit();
+					con.close();
+					ps.close();
+					return true;
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				throw new DatabaseException("Unablet to connect");
+			}
+			return false;
+		}
+	
+	//return employee email
+	public String returnEmail(int employee_id) throws DatabaseException {
+		String sql = "select user_email from employees where ers_user_id=?";
+		try (Connection con = DBUtil.getConnection(); PreparedStatement pstm = con.prepareStatement(sql);) {
+
+			pstm.setInt(1, employee_id);// passing the employee_id as input into '?'
+			ResultSet result = pstm.executeQuery();
+			
+			if(result.next()) {
+				String email = result.getString("user_email");
+			
+			con.close();
+			pstm.close();
+			result.close();
+			return email;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException("Unable to ");
+		}
+		return null;
+	}
+	
+	//return all the Pending forms
+	public List<RequestForm> getAllPending() throws DatabaseException{
+		String sql = "select * from reimbursement where reimb_status_id = 77";
+		try(Connection con = DBUtil.getConnection();
+			PreparedStatement pstm = con.prepareStatement(sql); ){
+			
+			ResultSet result = pstm.executeQuery();
+			
+			List<RequestForm> pending_forms = new ArrayList<>();
+			
+			
+			while(result.next()) {
+				RequestForm pforms = extractFormFromResultSet(result);
+				pending_forms.add(pforms);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return pending_forms;
+			
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatabaseException("Unable to ");
+			}
+	}
+	
+	//return ALL the APPROVED forms
+	public List<RequestForm> getAllApproved() throws DatabaseException{
+		String sql = "select * from reimbursement where reimb_status_id = 88";
+		try(Connection con = DBUtil.getConnection();
+			PreparedStatement pstm = con.prepareStatement(sql); ){
+			
+			ResultSet result = pstm.executeQuery();
+			
+			List<RequestForm> approved_forms = new ArrayList<>();
+			
+			
+			while(result.next()) {
+				RequestForm aforms = extractFormFromResultSet(result);
+				approved_forms.add(aforms);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return approved_forms;
+			
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatabaseException("Unable to ");
+			}
+	}
+	
+	//to get ALL the DENIED forms
+	public List<RequestForm> getAllDenied() throws DatabaseException{
+		String sql = "select * from reimbursement where reimb_status_id = 99";
+		try(Connection con = DBUtil.getConnection();
+			PreparedStatement pstm = con.prepareStatement(sql); ){
+			
+			ResultSet result = pstm.executeQuery();
+			
+			List<RequestForm> denied_forms = new ArrayList<>();
+			
+			
+			while(result.next()) {
+				RequestForm dforms = extractFormFromResultSet(result);
+				denied_forms.add(dforms);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return denied_forms;
+			
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatabaseException("Unable to ");
+			}
+	}
+	
+	//get ALL the forms
+	public List<RequestForm> getAllForms() throws DatabaseException{
+		String sql = "select * from reimbursement ";
+		try(Connection con = DBUtil.getConnection();
+			PreparedStatement pstm = con.prepareStatement(sql); ){
+			
+			ResultSet result = pstm.executeQuery();
+			
+			List<RequestForm> all_forms = new ArrayList<>();
+			
+			
+			while(result.next()) {
+				RequestForm forms = extractFormFromResultSet(result);
+				all_forms.add(forms);
+			}
+			con.close();
+			pstm.close();
+			result.close();
+			return all_forms;
+			
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatabaseException("Unable to ");
+			}
+	}
+	//remove main when done
+	public static void main(String[] args) throws DatabaseException, SQLException, ParseException {
+		ManagerRepository get = new ManagerRepository();
+		/*List list = new ArrayList<>();
+		list = get.getAllEmployees();
+		
+		for(int i=0; i< list.size();i++) {
+			System.out.println(list.get(i)+ "\n"); //testing to see if able to retreive all employees
+		}*/
+		
+		/*boolean testUpdatePassword = get.updatePassword("newpassword", 200); //update password testing
+		System.out.println(testUpdatePassword);*/
+		
+		/*String email = get.returnEmail(200); //get email testing
+		System.out.println(email);*/
+		
+		//testing approveLogin
+		/*Employee emp = new Employee();
+		emp = get.approvingLogin("poholo502");
+		System.out.println(emp);*/
+	
+		//RequestForm form = new RequestForm (200.0, "2019-04-08", "travel", 300, 101);
+		EmployeeRepository insertForm = new EmployeeRepository();
+		//insertForm.insertForm(form);*/
+		
+		
+		ManagerRepository seeForm = new ManagerRepository();
+		/*List<RequestForm> list = new ArrayList<>();
+		list = seeForm.getAllPending();
+		
+		for(int i=0; i< list.size();i++) {
+			System.out.println(list.get(i)+ "\n"); //testing to see if able to retreive pending forms
+		}*/
+		
+		Employee e = new Employee();
+		e = seeForm.viewProfile(200);
+		System.out.println(e);
+		
+	}
+	
+}

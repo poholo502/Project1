@@ -1,0 +1,61 @@
+package com.java.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.dto.Employee;
+import com.java.dto.RequestForm;
+import com.java.exception.DatabaseException;
+import com.java.repository.EmployeeRepository;
+
+@WebServlet("/viewreimbursement")
+public class ViewReimbursementController extends HttpServlet{
+	
+	@Override
+	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		ObjectMapper om = new ObjectMapper(); //object mapper from com.fasterxml.jackson.databind.ObjectMapper
+		
+		//this is what i have in the first place
+		if(session.getAttribute("Employee")==null) {
+			request.getRequestDispatcher("/Login.html").forward(request, response);
+		}
+			Employee emp =(Employee) session.getAttribute("Employee"); //i'm having the session store employee object
+			//response.sendRedirect("html/viewReimbursement.html");
+			PrintWriter write = response.getWriter();
+			
+			//all pending form based on user Id
+			RequestForm pending_form = new RequestForm();
+			EmployeeRepository empRp = new EmployeeRepository();
+			
+			List<RequestForm> list_form = new ArrayList<>();//list of pending forms
+			try {
+				list_form = empRp.getPending(emp.getEmployee_id()); //I want to use the object from that I store in session to return me the current employee id
+				
+				response.setContentType("application/json");
+				write.println("<p>");
+				for(int i=0; i<list_form.size(); i++) {
+					write.println(list_form.get(i));
+				}
+				write.println("/p>");
+				
+			} catch (DatabaseException e) {
+				e.printStackTrace();
+				//response.sendRedirect("Login");
+				request.getRequestDispatcher("/Login.html").forward(request, response);
+			}
+		
+		//request.getRequestDispatcher("/Login.html").forward(request, response);
+		//response.sendRedirect("Login");
+	}
+}

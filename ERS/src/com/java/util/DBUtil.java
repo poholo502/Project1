@@ -14,7 +14,7 @@ import com.java.exception.DatabaseException;
 public class DBUtil {
 	
 	private static BasicDataSource ds = new BasicDataSource();	//need tomcat dependency
-	static Logger logger = Logger.getLogger(DBUtil.class); 		//need log4j dependency
+	//static Logger logger = Logger.getLogger(DBUtil.class); 		//need log4j dependency
 	
 	static {
 		Properties property = new Properties();
@@ -26,7 +26,7 @@ public class DBUtil {
 			ds.setDriverClassName(property.getProperty("driverClassName"));
 			ds.setDefaultAutoCommit(false); //we need to manually commit every time we make a connection
 		}catch(IOException e){
-			logger.error("Unable to get connection"+e.getMessage());
+			//logger.error("Unable to get connection"+e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -35,7 +35,7 @@ public class DBUtil {
 		try {
 			return ds.getConnection();
 		} catch(SQLException e) {
-			logger.error("Unable to get connection" + e.getMessage());
+			//logger.error("Unable to get connection" + e.getMessage());
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}

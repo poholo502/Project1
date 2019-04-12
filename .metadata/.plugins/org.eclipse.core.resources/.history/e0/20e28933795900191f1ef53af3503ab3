@@ -1,0 +1,20 @@
+package com.java.controller;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.java.dto.Employee;
+import com.java.repository.EmployeeRepository;
+
+@WebServlet("/employeeInfo")
+public class EmployeeController extends HttpServlet{
+	Employee employee = new Employee();
+	EmployeeRepository repository = new EmployeeRepository();
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
+}

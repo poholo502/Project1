@@ -1,0 +1,9 @@
+package com.java.controller;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+@WebServlet("/approve")
+public class FormApproveController extends HttpServlet{
+	
+}

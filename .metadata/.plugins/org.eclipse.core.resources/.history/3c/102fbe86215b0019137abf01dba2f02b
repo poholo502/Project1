@@ -1,0 +1,10 @@
+function showEmployeeInf(){
+	var request = new XMLHttpRequest();
+	request.opent("GET", "url", true);
+	request.send();
+
+	if(xhttp.readyState == 4 && xhttp.status == 200){
+		var response = request.reponse;
+		document.write(response);
+	}
+}

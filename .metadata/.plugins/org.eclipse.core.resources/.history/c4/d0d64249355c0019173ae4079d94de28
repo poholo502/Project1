@@ -1,0 +1,39 @@
+function sendAjaxGet(url, func) {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            func(this);
+        }
+    }
+
+    xhr.open("GET", url);
+    xhr.send();
+}
+
+sendAjaxGet("http://localhost:8080/ERS/allemp", display);
+function display(xhr) {
+	//var pform = JSON.parse(request.responseText);
+    requests = JSON.parse(xhr.responseText).requests;
+   
+	table = document.getElementById("mainTable1");
+	
+	/*for(var i = table.rows.length - 1; i > 0; i--)
+	{
+	    table.deleteRow(i);
+	}*/
+	
+	for(let i in requests) {
+        let newRow = document.createElement("tr");
+
+        newRow.innerHTML =
+        	`<td>${requests[i].ers_user_id}</td>
+			<td>${requests[i].ers_username}</td>
+			<td>${requests[i].ers_password}</td>
+			<td>${requests[i].user_first_name}</td>
+			<td>${requests[i].user_last_name}</td>
+			<td>${requests[i].user_email}</td>
+			<td>${requests[i].user_role_id}</td>`;
+        		
+        	table.appendChild(newRow);
+	}
+}

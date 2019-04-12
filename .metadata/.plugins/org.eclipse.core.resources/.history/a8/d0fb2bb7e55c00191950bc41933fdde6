@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Update Employee Info</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	<link href="reimbursementForm.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script type="text/javascript" src="one.js"></script> <!-- might have to change or update this -->
+</head>
+
+<body>
+<div>
+	<header class="main-header">
+		<h3><span id="project1">PROJECT1</span><span id="employee"> ERS Update Employee Info</span></h3>
+	</header>
+	<nav  id = "navbar">
+			<a href="./welcomePage.html">Home | </a>
+			<a href="./employeeInfo.html">View Profile  |  </a>
+			<a href="./reimbursementform.html">Request Reimbursement  |  </a>
+			<a href="./viewPending.html">View Reimbursements  |  </a>
+			<a href="./updateEmployeeInfo.html">Update Info  |  </a>
+			<form action="./../logout">
+			<input type="submit" value="Logout">
+			</form>
+	</nav>
+	<br>	
+<!-- <footer id="main-footer">
+		<p>Copyright &copy; 2019 PoHo's Project1 Login Page</p>
+</footer> -->
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+</body>
+</html>
