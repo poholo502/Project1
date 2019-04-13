@@ -294,14 +294,15 @@ public class ManagerRepository extends EmployeeRepository{
 		//RequestForm form = new RequestForm (200.0, "2019-04-08", "travel", 300, 101);
 		EmployeeRepository insertForm = new EmployeeRepository();
 		//insertForm.insertForm(form);*/
+		Employee emp = insertForm.approvingLogin("emp1", "emp1");
+		System.out.println(emp);
+		
+		/*ManagerRepository seeForm = new ManagerRepository();
 		
 		
-		ManagerRepository seeForm = new ManagerRepository();
-		
-		
-		/*Employee e = new Employee();
+		Employee e = new Employee();
 		e = seeForm.viewProfile(200);
-		System.out.println(e);*/
+		System.out.println(e);
 		
 		boolean b = seeForm.approveFrom(1031,300);
 		System.out.println(b);
@@ -311,7 +312,7 @@ public class ManagerRepository extends EmployeeRepository{
 		
 		for(int i=0; i< list.size();i++) {
 			System.out.println(list.get(i)+ "\n"); //testing to see if able to retreive pending forms
-		}
+		}*/
 		
 		
 		

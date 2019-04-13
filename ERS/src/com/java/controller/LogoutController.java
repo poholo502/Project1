@@ -32,7 +32,7 @@ public class LogoutController extends HttpServlet{
 		}
 		//request.getRequestDispatcher("html/Login.html").forward(request, response);
 		session.invalidate();
-		response.sendRedirect("Login");
+		response.sendRedirect("html/Login.html");
 		
 		
 	}

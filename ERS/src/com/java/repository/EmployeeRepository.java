@@ -53,19 +53,27 @@ public class EmployeeRepository {
 	}
 	
 	//for login
-	public Employee approvingLogin(String passInusername)
+	public Employee approvingLogin(String passInusername, String passInpassword)
 			throws SQLException, DatabaseException {
 
-		String sql = "SELECT * FROM employees where ers_username = ?";
+		String sql = "SELECT * FROM employees where ers_username = ? and ers_password =?";
 		Employee employee = null;
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstm = connection.prepareStatement(sql);) {
 
 			pstm.setString(1, passInusername);
+			pstm.setString(2, passInpassword);
 			ResultSet result = pstm.executeQuery();
 
 			while(result.next()) {
+				//System.out.println("coming in while loop");
+				//int count = result.getInt(1);
+				if(passInusername.equals(result.getString("ers_username")) && passInpassword.equals(result.getString("ers_password"))) {
+				//if(count>0) {
 				employee = new Employee(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6), result.getInt(7));
+				//System.out.println("Return employee");
+				return employee;
+				}
 			}
 			result.close();
 			pstm.close();
@@ -74,7 +82,8 @@ public class EmployeeRepository {
 			e.printStackTrace();
 			throw new DatabaseException("Unable to connect");
 		}
-		return employee;
+		//System.out.println("Return null");
+		return null;
 	}
 	
 	//for to get 1 specific employee info from the database by providing id
